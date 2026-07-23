@@ -1092,6 +1092,181 @@
         display: flex;
     }
 }
+/* ========== PAGINATION - SHARP DESIGN ========== */
+.pagination-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    border-top: 1px solid #E2E8F0;
+}
+
+.pagination-info {
+    font-size: 11px;
+    color: #94A3B8;
+    font-weight: 500;
+}
+
+.pagination-info strong {
+    color: #0F172A;
+    font-weight: 700;
+}
+
+/* Navigation Container */
+.pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+/* Page Numbers */
+.pagination-nav a,
+.pagination-nav span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    border: 1px solid #E2E8F0;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #475569;
+    background: #FFFFFF;
+    transition: all 0.15s;
+}
+
+.pagination-nav a:hover {
+    background: #F1F5F9;
+    border-color: #CBD5E1;
+    color: #0F172A;
+}
+
+/* Active Page */
+.pagination-nav .active {
+    background: #3B82F6;
+    border-color: #3B82F6;
+    color: #FFFFFF;
+}
+
+/* Disabled State */
+.pagination-nav .disabled {
+    color: #CBD5E1;
+    background: #F8FAFC;
+    cursor: not-allowed;
+}
+
+/* Previous/Next Buttons */
+.pagination-nav .prev-btn,
+.pagination-nav .next-btn {
+    min-width: 32px;
+    padding: 0 10px;
+}
+
+.pagination-nav .prev-btn svg,
+.pagination-nav .next-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Hide text for small screens */
+.pagination-nav .btn-text {
+    display: inline;
+}
+
+@media (max-width: 640px) {
+    .pagination-nav .btn-text {
+        display: none;
+    }
+}
+
+/* Override Tailwind Pagination */
+nav[role="navigation"] .flex {
+    gap: 2px;
+}
+
+nav[role="navigation"] svg {
+    width: 14px !important;
+    height: 14px !important;
+}
+
+nav[role="navigation"] .rounded-md,
+nav[role="navigation"] .rounded-l-md,
+nav[role="navigation"] .rounded-r-md {
+    border-radius: 0 !important;
+}
+
+nav[role="navigation"] .shadow-sm {
+    box-shadow: none !important;
+}
+
+/* Pagination number buttons */
+nav[role="navigation"] a,
+nav[role="navigation"] span[aria-current="page"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 32px !important;
+    height: 32px !important;
+    padding: 0 10px !important;
+    border: 1px solid #E2E8F0 !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    color: #475569 !important;
+    background: #FFFFFF !important;
+    margin-left: 0 !important;
+}
+
+nav[role="navigation"] a:hover {
+    background: #F1F5F9 !important;
+    border-color: #CBD5E1 !important;
+    color: #0F172A !important;
+}
+
+nav[role="navigation"] span[aria-current="page"] {
+    background: #3B82F6 !important;
+    border-color: #3B82F6 !important;
+    color: #FFFFFF !important;
+}
+
+/* Disabled arrows */
+nav[role="navigation"] span[aria-disabled="true"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 32px !important;
+    height: 32px !important;
+    padding: 0 10px !important;
+    border: 1px solid #E2E8F0 !important;
+    color: #CBD5E1 !important;
+    background: #F8FAFC !important;
+}
+
+/* Arrow buttons */
+nav[role="navigation"] a[rel="prev"],
+nav[role="navigation"] a[rel="next"] {
+    min-width: 32px !important;
+    padding: 0 10px !important;
+}
+
+/* Hide Tailwind text on mobile */
+nav[role="navigation"] .sm\\:hidden {
+    display: none !important;
+}
+
+/* Show only numbers and arrows */
+nav[role="navigation"] .sm\\:flex-1 {
+    display: flex !important;
+    gap: 2px !important;
+    align-items: center !important;
+}
+
+/* Hide "Showing X to Y of Z" duplicate text */
+nav[role="navigation"] p.text-sm {
+    display: none !important;
+}
     </style>
 
     @stack('styles')

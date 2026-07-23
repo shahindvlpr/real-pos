@@ -4,12 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Unit extends Model
+class Customer extends Model
 {
     protected $fillable = [
         'name',
-        'code',
-        'description',
+        'email',
+        'phone',
+        'address',
+        'city',
+        'state',
+        'postal_code',
+        'country',
+        'notes',
         'status'
     ];
 
@@ -17,13 +23,13 @@ class Unit extends Model
         'status' => 'boolean'
     ];
 
-    // Products Relationship
-    public function products()
+    // Sales Relationship
+    public function sales()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Sale::class);
     }
 
-    // Scope for Active Units
+    // Scope for Active Customers
     public function scopeActive($query)
     {
         return $query->where('status', true);
