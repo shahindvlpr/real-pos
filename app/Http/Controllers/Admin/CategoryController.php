@@ -38,6 +38,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:categories,name',
             'description' => 'nullable|string|max:1000',
@@ -180,3 +181,4 @@ class CategoryController extends Controller
         return response()->json($subcategories);
     }
 }
+

@@ -1275,7 +1275,7 @@ nav[role="navigation"] p.text-sm {
     <!-- Sidebar -->
     @include('layouts.sidebar')
 
-    <!-- Main Content -->
+<!-- Main Content -->
     <div class="main-content">
         <!-- Top Bar -->
         <div class="top-bar">
@@ -1301,7 +1301,7 @@ nav[role="navigation"] p.text-sm {
                         </div>
                         <div class="user-info d-none d-md-block">
                             <div class="user-name">{{ Auth::user()->name }}</div>
-                            <div class="user-role">Administrator</div>
+                            <div class="user-role">{{ ucfirst(str_replace('_', ' ', Auth::user()->role ?? 'admin')) }}</div>
                         </div>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2">
                             <polyline points="6 9 12 15 18 9"/>

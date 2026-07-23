@@ -13,6 +13,53 @@
         </div>
     </div>
 
+<!-- Sidebar Footer -->
+<div style="padding: 14px 18px; border-top: 1px solid #1E2A3A; margin-top: auto;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+        <!-- Calendar Icon -->
+        <div style="width: 32px; height: 32px; background: #1E2A3A; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="0"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+        </div>
+        <!-- Time Info -->
+        <div style="flex: 1; min-width: 0;">
+            <div style="display: flex; align-items: baseline; gap: 4px;">
+                <span id="sidebarTime" style="font-size: 15px; font-weight: 700; color: #E2E8F0; line-height: 1; letter-spacing: -0.3px;">03:45</span>
+                <span id="sidebarSeconds" style="font-size: 10px; font-weight: 600; color: #60A5FA; line-height: 1;">00</span>
+                <span id="sidebarAmPm" style="font-size: 10px; font-weight: 600; color: #64748B; line-height: 1;">PM</span>
+            </div>
+            <div id="sidebarDate" style="font-size: 10px; color: #64748B; font-weight: 500; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px;">FRI, 24 JUL 2026</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateDateTime() {
+        const now = new Date();
+        
+        // Hours & Minutes
+        const hours = now.getHours();
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const displayHours = hours % 12 || 12;
+        document.getElementById('sidebarTime').textContent = displayHours + ':' + minutes;
+        
+        // Seconds (Blue color)
+        document.getElementById('sidebarSeconds').textContent = now.getSeconds().toString().padStart(2, '0');
+        
+        // AM/PM
+        document.getElementById('sidebarAmPm').textContent = hours >= 12 ? 'PM' : 'AM';
+        
+        // Date
+        const dateOptions = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' };
+        document.getElementById('sidebarDate').textContent = now.toLocaleString('en-US', dateOptions).toUpperCase();
+    }
+    updateDateTime();
+    setInterval(updateDateTime, 1000); // Update every second
+</script>
     <!-- Navigation -->
     <div class="sidebar-nav">
         
@@ -253,15 +300,40 @@
     </div>
 
     <!-- Sidebar Footer -->
-    <div class="sidebar-footer">
-        <div class="footer-text">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
+<div style="padding: 14px 18px; border-top: 1px solid #1E2A3A; margin-top: auto;">
+    <!-- Brand -->
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+        <div style="width: 30px; height: 30px; background: #1E3A5F; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2">
+                <rect width="24" height="24" fill="none"/>
+                <path d="M7 7h4l2 5-2 5H7l2-5-2-5zM13 7h4l2 5-2 5h-4l2-5-2-5z"/>
             </svg>
-            <span>{{ date('h:i A') }}</span>
+        </div>
+        <div style="flex: 1; min-width: 0;">
+            <div style="font-size: 12px; font-weight: 700; color: #E2E8F0;">Real POS</div>
+            <div style="font-size: 9px; color: #64748B; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;">Version 1.0</div>
         </div>
     </div>
+    
+    <!-- Time (Compact) -->
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-size: 9px; color: #475569; font-weight: 500;">&copy; {{ date('Y') }}</span>
+        <span id="footerMiniTime" style="font-size: 10px; font-weight: 600; color: #64748B;"></span>
+    </div>
+</div>
+
+<script>
+    function updateFooterMiniTime() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const displayHours = hours % 12 || 12;
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        document.getElementById('footerMiniTime').textContent = displayHours + ':' + minutes + ' ' + ampm;
+    }
+    updateFooterMiniTime();
+    setInterval(updateFooterMiniTime, 30000);
+</script>
 </nav>
 
 <!-- Mobile Toggle -->

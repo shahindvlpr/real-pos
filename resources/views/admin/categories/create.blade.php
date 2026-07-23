@@ -406,15 +406,16 @@
                         <div class="form-section">
                             <div class="form-section-title">Status</div>
                             <div class="checkbox-group">
-                                <input type="checkbox" 
-                                       class="checkbox-input" 
-                                       id="status" 
-                                       name="status" 
-                                       {{ old('status', true) ? 'checked' : '' }}>
-                                <label class="checkbox-label" for="status">
-                                    Active - Category will be visible in the system
-                                </label>
-                            </div>
+    <input type="checkbox" 
+           class="checkbox-input" 
+           id="status" 
+           name="status" 
+           value="1"
+           {{ old('status', true) ? 'checked' : '' }}>
+    <label class="checkbox-label" for="status">
+        Active - Category will be visible in the system
+    </label>
+</div>
                         </div>
                     </div>
 
@@ -465,4 +466,5 @@
         }
     }
 </script>
+
 @endpush
