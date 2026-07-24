@@ -112,15 +112,16 @@
         @endif
 
         <!-- Units -->
-        <a href="#" class="nav-link disabled">
+        @if(Route::has('units.index'))
+        <a href="{{ route('units.index') }}" class="nav-link {{ request()->routeIs('units.*') ? 'active' : '' }}">
             <span class="nav-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 7h18v3H3zM5 10v11h14V10"/>
+                    <path d="M3 7h18v4H3zM5 11v11h14V11"/>
                 </svg>
             </span>
             <span class="nav-label">Units</span>
-            <span class="nav-badge">Soon</span>
         </a>
+        @endif
 
         <!-- Products -->
         <a href="#" class="nav-link disabled">
