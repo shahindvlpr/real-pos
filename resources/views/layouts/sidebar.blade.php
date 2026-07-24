@@ -124,7 +124,8 @@
         @endif
 
         <!-- Products -->
-        <a href="#" class="nav-link disabled">
+        @if(Route::has('products.index'))
+        <a href="{{ route('products.index') }}" class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}">
             <span class="nav-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polygon points="12 2 22 8 12 14 2 8 12 2"/>
@@ -133,8 +134,8 @@
                 </svg>
             </span>
             <span class="nav-label">Products</span>
-            <span class="nav-badge">Soon</span>
         </a>
+        @endif
 
         <!-- Divider -->
         <div class="nav-divider">

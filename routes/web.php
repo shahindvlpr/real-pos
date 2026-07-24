@@ -68,3 +68,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('units', \App\Http\Controllers\Admin\UnitController::class);
 });
+
+// Product Routes
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
+});
