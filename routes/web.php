@@ -58,3 +58,13 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin,manager'])->prefix('a
 Route::middleware(['auth:sanctum', 'verified', 'role:admin,manager,cashier'])->prefix('pos')->name('pos.')->group(function () {
     // Future: POS Screen, Sales, Customers
 });
+
+// Brand Routes
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::resource('brands', \App\Http\Controllers\Admin\BrandController::class);
+});
+
+// Unit Routes
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::resource('units', \App\Http\Controllers\Admin\UnitController::class);
+});

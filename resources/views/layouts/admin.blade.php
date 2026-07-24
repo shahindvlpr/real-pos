@@ -1267,6 +1267,11 @@ nav[role="navigation"] .sm\\:flex-1 {
 nav[role="navigation"] p.text-sm {
     display: none !important;
 }
+.col-lg-8 {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
     </style>
 
     @stack('styles')

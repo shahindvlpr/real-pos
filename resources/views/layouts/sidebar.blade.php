@@ -98,7 +98,8 @@
         </a>
 
         <!-- Brands -->
-        <a href="#" class="nav-link disabled">
+        @if(Route::has('brands.index'))
+        <a href="{{ route('brands.index') }}" class="nav-link {{ request()->routeIs('brands.*') ? 'active' : '' }}">
             <span class="nav-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="7" cy="7" r="3"/>
@@ -107,8 +108,8 @@
                 </svg>
             </span>
             <span class="nav-label">Brands</span>
-            <span class="nav-badge">Soon</span>
         </a>
+        @endif
 
         <!-- Units -->
         <a href="#" class="nav-link disabled">
