@@ -73,3 +73,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
 });
+
+// POS Routes
+Route::middleware(['auth:sanctum', 'verified'])->prefix('pos')->name('pos.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Admin\PosController::class, 'index'])->name('index');
+    Route::post('/add-to-cart', [App\Http\Controllers\Admin\PosController::class, 'addToCart'])->name('add-to-cart');
+    Route::post('/remove-from-cart', [App\Http\Controllers\Admin\PosController::class, 'removeFromCart'])->name('remove-cart');
+    Route::post('/update-cart', [App\Http\Controllers\Admin\PosController::class, 'updateCart'])->name('update-cart');
+    Route::post('/checkout', [App\Http\Controllers\Admin\PosController::class, 'checkout'])->name('checkout');
+    Route::get('/invoice/{id}', [App\Http\Controllers\Admin\PosController::class, 'invoice'])->name('invoice');
+});
