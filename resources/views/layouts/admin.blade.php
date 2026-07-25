@@ -827,7 +827,7 @@
         }
 
         .col-12 { width: 100%; padding: 0 10px; }
-        .col-lg-8 { width: 66.666%; padding: 0 10px; }
+        .col-lg-8 { width: 100%; padding: 0 10px; }
         .col-lg-4 { width: 33.333%; padding: 0 10px; }
         .col-md-6 { width: 50%; padding: 0 10px; }
         .col-md-12 { width: 100%; padding: 0 10px; }
@@ -1269,7 +1269,6 @@ nav[role="navigation"] p.text-sm {
 }
 .col-lg-8 {
     width: 100%;
-    max-width: 900px;
     margin: 0 auto;
 }
     </style>

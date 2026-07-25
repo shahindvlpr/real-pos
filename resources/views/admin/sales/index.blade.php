@@ -45,6 +45,10 @@
         font-size: 12px;
         font-family: 'Inter', sans-serif;
     }
+    .col-lg-8 {
+        width: 100%;
+        margin: 0 auto;
+    }
 </style>
 @endpush
 

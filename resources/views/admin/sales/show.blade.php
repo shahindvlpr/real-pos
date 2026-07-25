@@ -16,6 +16,10 @@
         .sidebar, .top-bar, .btn { display:none !important; }
         .main-content { margin:0 !important; padding:0 !important; }
     }
+    .col-lg-8 {
+    width: 100%;
+    margin: 0 auto;
+}
 </style>
 @endpush
 
