@@ -248,7 +248,8 @@
         </div>
 
         <!-- Customers -->
-        <a href="#" class="nav-link disabled">
+        @if(Route::has('customers.index'))
+        <a href="{{ route('customers.index') }}" class="nav-link {{ request()->routeIs('customers.*') ? 'active' : '' }}">
             <span class="nav-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
@@ -258,8 +259,8 @@
                 </svg>
             </span>
             <span class="nav-label">Customers</span>
-            <span class="nav-badge">Soon</span>
         </a>
+        @endif
 
         <!-- Suppliers -->
         <a href="#" class="nav-link disabled">

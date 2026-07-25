@@ -89,3 +89,8 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->name('admin.')
     Route::get('/sales', [App\Http\Controllers\Admin\SaleController::class, 'index'])->name('sales.index');
     Route::get('/sales/{sale}', [App\Http\Controllers\Admin\SaleController::class, 'show'])->name('sales.show');
 });
+
+// Customer Routes
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::resource('customers', \App\Http\Controllers\Admin\CustomerController::class);
+});
