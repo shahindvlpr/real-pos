@@ -83,3 +83,9 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('pos')->name('pos.')->gr
     Route::post('/checkout', [App\Http\Controllers\Admin\PosController::class, 'checkout'])->name('checkout');
     Route::get('/invoice/{id}', [App\Http\Controllers\Admin\PosController::class, 'invoice'])->name('invoice');
 });
+
+// Sales History Routes
+Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/sales', [App\Http\Controllers\Admin\SaleController::class, 'index'])->name('sales.index');
+    Route::get('/sales/{sale}', [App\Http\Controllers\Admin\SaleController::class, 'show'])->name('sales.show');
+});

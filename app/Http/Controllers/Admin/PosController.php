@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleItem;
@@ -48,9 +49,10 @@ class PosController extends Controller
         foreach ($cart as $item) {
             $subtotal += $item['price'] * $item['quantity'];
         }
+        $customers = Customer::active()->get();
 
         return view('admin.pos.index', compact(
-            'products', 'categories', 'brands', 'cart', 'subtotal'
+            'products', 'categories', 'brands', 'cart', 'subtotal', 'customers'
         ));
     }
 

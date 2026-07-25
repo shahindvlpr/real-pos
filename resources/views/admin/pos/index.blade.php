@@ -588,6 +588,18 @@
             <span class="cart-count" id="cartCount">{{ count($cart) }}</span>
         </div>
 
+        <!-- Customer Selection -->
+        <div style="padding: 10px 12px; border-bottom: 1px solid #E2E8F0; background: #FAFBFC;">
+            <label style="font-size: 10px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: block;">Customer</label>
+            <select id="customerSelect" style="width: 100%; padding: 8px 10px; border: 1px solid #E2E8F0; font-size: 12px; font-family: 'Inter', sans-serif; background: #FFF; color: #0F172A;">
+                @foreach($customers as $customer)
+                    <option value="{{ $customer->id }}" {{ $customer->name == 'Walk-in Customer' ? 'selected' : '' }}>
+                        {{ $customer->name }} {{ $customer->phone ? ' - ' . $customer->phone : '' }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
         <!-- Cart Items -->
         <div class="cart-body" id="cartBody">
             @if(count($cart) > 0)
@@ -842,29 +854,40 @@ function processCheckout() {
         var form = document.getElementById('checkoutForm');
         form.innerHTML = '';
         
+        // Token
         var tokenInput = document.createElement('input');
         tokenInput.type = 'hidden';
         tokenInput.name = '_token';
         tokenInput.value = csrfToken;
         form.appendChild(tokenInput);
         
+        // Payment Method
         var methodInput = document.createElement('input');
         methodInput.type = 'hidden';
         methodInput.name = 'payment_method';
         methodInput.value = document.getElementById('paymentMethod').value;
         form.appendChild(methodInput);
         
+        // Discount
         var discountInput = document.createElement('input');
         discountInput.type = 'hidden';
         discountInput.name = 'discount';
         discountInput.value = document.getElementById('discountInput').value || 0;
         form.appendChild(discountInput);
         
+        // Paid Amount
         var paidInput = document.createElement('input');
         paidInput.type = 'hidden';
         paidInput.name = 'paid_amount';
         paidInput.value = document.getElementById('paidAmount').value || 0;
         form.appendChild(paidInput);
+        
+        //Customer ID 
+        var customerInput = document.createElement('input');
+        customerInput.type = 'hidden';
+        customerInput.name = 'customer_id';
+        customerInput.value = document.getElementById('customerSelect').value;
+        form.appendChild(customerInput);
         
         form.submit();
     }
