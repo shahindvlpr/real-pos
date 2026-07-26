@@ -284,15 +284,16 @@
         </div>
 
         <!-- Reports -->
-        <a href="#" class="nav-link disabled">
+        @if(Route::has('admin.reports.index'))
+        <a href="{{ route('admin.reports.index') }}" class="nav-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
             <span class="nav-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
                 </svg>
             </span>
             <span class="nav-label">Reports</span>
-            <span class="nav-badge">Soon</span>
         </a>
+        @endif
 
         <!-- Settings -->
         <a href="#" class="nav-link disabled">

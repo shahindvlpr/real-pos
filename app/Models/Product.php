@@ -33,8 +33,19 @@ class Product extends Model
     public function brand() { return $this->belongsTo(Brand::class); }
     public function unit() { return $this->belongsTo(Unit::class); }
     
+    // Sale Items Relationship
+    public function saleItems()
+    {
+        return $this->hasMany(SaleItem::class);
+    }
+
+    // Purchase Items Relationship
+    public function purchaseItems()
+    {
+        return $this->hasMany(PurchaseItem::class);
+    }
+    
     public function scopeActive($query) { return $query->where('is_active', true); }
     public function scopeLowStock($query) { return $query->whereColumn('stock_quantity', '<=', 'min_stock_quantity'); }
-    
     public function isLowStock(): bool { return $this->stock_quantity <= $this->min_stock_quantity; }
 }

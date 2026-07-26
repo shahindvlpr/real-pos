@@ -109,3 +109,8 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('purchases')->name('purc
     Route::get('/{purchase}', [\App\Http\Controllers\Admin\PurchaseController::class, 'show'])->name('show');
     Route::delete('/{purchase}', [\App\Http\Controllers\Admin\PurchaseController::class, 'destroy'])->name('destroy');
 });
+
+// Report Routes
+Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
+});
