@@ -263,7 +263,8 @@
         @endif
 
         <!-- Suppliers -->
-        <a href="#" class="nav-link disabled">
+        @if(Route::has('suppliers.index'))
+        <a href="{{ route('suppliers.index') }}" class="nav-link {{ request()->routeIs('suppliers.*') ? 'active' : '' }}">
             <span class="nav-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="1" y="3" width="15" height="13" rx="0"/>
@@ -273,8 +274,8 @@
                 </svg>
             </span>
             <span class="nav-label">Suppliers</span>
-            <span class="nav-badge">Soon</span>
         </a>
+        @endif
 
         <!-- Divider -->
         <div class="nav-divider">

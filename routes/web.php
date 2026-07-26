@@ -94,3 +94,9 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->name('admin.')
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('customers', \App\Http\Controllers\Admin\CustomerController::class);
 });
+
+
+// Supplier Routes
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::resource('suppliers', \App\Http\Controllers\Admin\SupplierController::class);
+});
