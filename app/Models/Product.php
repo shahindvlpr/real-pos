@@ -48,4 +48,8 @@ class Product extends Model
     public function scopeActive($query) { return $query->where('is_active', true); }
     public function scopeLowStock($query) { return $query->whereColumn('stock_quantity', '<=', 'min_stock_quantity'); }
     public function isLowStock(): bool { return $this->stock_quantity <= $this->min_stock_quantity; }
+    public function stockTransactions()
+    {
+        return $this->hasMany(StockTransaction::class);
+    }
 }

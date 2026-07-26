@@ -138,46 +138,24 @@
         @endif
 
         <!-- Divider -->
-        <div class="nav-divider">
-            <span>Inventory</span>
-        </div>
+<div class="nav-divider">
+    <span>Inventory</span>
+</div>
 
-        <!-- Stock In -->
-        <a href="#" class="nav-link disabled">
-            <span class="nav-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 5v14M5 12h14"/>
-                </svg>
-            </span>
-            <span class="nav-label">Stock In</span>
-            <span class="nav-badge">Soon</span>
-        </a>
-
-        <!-- Stock Out -->
-        <a href="#" class="nav-link disabled">
-            <span class="nav-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14"/>
-                </svg>
-            </span>
-            <span class="nav-label">Stock Out</span>
-            <span class="nav-badge">Soon</span>
-        </a>
-
-        <!-- Stock Transfer -->
-        <a href="#" class="nav-link disabled">
-            <span class="nav-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="17 1 21 5 17 9"/>
-                    <path d="M3 11V9a4 4 0 014-4h14"/>
-                    <polyline points="7 23 3 19 7 15"/>
-                    <path d="M21 13v2a4 4 0 01-4 4H3"/>
-                </svg>
-            </span>
-            <span class="nav-label">Stock Transfer</span>
-            <span class="nav-badge">Soon</span>
-        </a>
-
+<!-- Inventory Overview -->
+@if(Route::has('admin.inventory.index'))
+<a href="{{ route('admin.inventory.index') }}" class="nav-link {{ request()->routeIs('admin.inventory.*') ? 'active' : '' }}">
+    <span class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 22 8 12 14 2 8 12 2"/>
+            <polyline points="2 8 12 14 22 8"/>
+            <polyline points="12 14 22 8 22 18 12 22 2 18 2 8"/>
+        </svg>
+    </span>
+    <span class="nav-label">Inventory</span>
+    <span class="nav-count">{{ \App\Models\Product::whereColumn('stock_quantity', '<=', 'min_stock_quantity')->count() }}</span>
+</a>
+@endif
                 <!-- ============ SALES ============ -->
         <div class="nav-divider">
             <span>Sales</span>
@@ -283,6 +261,21 @@
             <span>System</span>
         </div>
 
+        <!-- Users -->
+         @if(Route::has('admin.users.index'))
+        <a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+            </span>
+            <span class="nav-label">Users</span>
+        </a>
+        @endif
+        
         <!-- Reports -->
         @if(Route::has('admin.reports.index'))
         <a href="{{ route('admin.reports.index') }}" class="nav-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
@@ -296,7 +289,8 @@
         @endif
 
         <!-- Settings -->
-        <a href="#" class="nav-link disabled">
+        @if(Route::has('admin.settings.index'))
+        <a href="{{ route('admin.settings.index') }}" class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
             <span class="nav-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3"/>
@@ -304,8 +298,8 @@
                 </svg>
             </span>
             <span class="nav-label">Settings</span>
-            <span class="nav-badge">Soon</span>
         </a>
+        @endif
     </div>
 
     <!-- Sidebar Footer -->

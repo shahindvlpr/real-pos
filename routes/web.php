@@ -114,3 +114,25 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('purchases')->name('purc
 Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
 });
+
+// User Management Routes (Admin Only)
+Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+});
+
+// Inventory Routes
+Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/inventory', [\App\Http\Controllers\Admin\InventoryController::class, 'index'])->name('inventory.index');
+    Route::get('/inventory/stock-in', [\App\Http\Controllers\Admin\InventoryController::class, 'stockIn'])->name('inventory.stock-in');
+    Route::post('/inventory/stock-in', [\App\Http\Controllers\Admin\InventoryController::class, 'stockInStore'])->name('inventory.stock-in-store');
+    Route::get('/inventory/stock-out', [\App\Http\Controllers\Admin\InventoryController::class, 'stockOut'])->name('inventory.stock-out');
+    Route::post('/inventory/stock-out', [\App\Http\Controllers\Admin\InventoryController::class, 'stockOutStore'])->name('inventory.stock-out-store');
+    Route::get('/inventory/history', [\App\Http\Controllers\Admin\InventoryController::class, 'history'])->name('inventory.history');
+});
+
+Route::get('/inventory/report', [\App\Http\Controllers\Admin\InventoryController::class, 'report'])->name('inventory.report');
+
+Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
+});

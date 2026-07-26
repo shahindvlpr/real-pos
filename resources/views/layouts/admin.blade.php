@@ -1288,14 +1288,60 @@ nav[role="navigation"] p.text-sm {
                 <div class="subtitle">@yield('page-subtitle', 'Business Overview')</div>
             </div>
             <div class="top-bar-right">
-                <!-- Notification -->
-                <button class="btn-icon" title="Notifications">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-                    </svg>
-                    <span class="notification-dot"></span>
-                </button>
+
+<!-- Notification Bell - All Alerts in One -->
+<div class="dropdown" style="position: relative;">
+    <button class="btn-icon" title="Notifications" onclick="toggleNotifDropdown()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        @php 
+            $lowStockCount = \App\Models\Product::whereColumn('stock_quantity', '<=', 'min_stock_quantity')->where('stock_quantity', '>', 0)->count();
+            $outOfStock = \App\Models\Product::where('stock_quantity', 0)->count();
+            $totalAlerts = $lowStockCount + $outOfStock;
+        @endphp
+        @if($totalAlerts > 0)
+            <span style="position:absolute;top:-4px;right:-4px;background:#EF4444;color:#FFF;font-size:9px;font-weight:700;min-width:16px;height:16px;display:flex;align-items:center;justify-content:center;padding:0 4px;">{{ $totalAlerts }}</span>
+        @endif
+    </button>
+    
+    <!-- Dropdown -->
+    <div id="notifDropdown" style="display:none;position:absolute;top:100%;right:0;background:#FFF;border:1px solid #E2E8F0;min-width:280px;z-index:1050;box-shadow:0 10px 30px rgba(0,0,0,0.1);">
+        <div style="padding:12px 16px;border-bottom:1px solid #E2E8F0;font-size:12px;font-weight:700;color:#0F172A;">Notifications</div>
+        
+        @if($lowStockCount > 0)
+            <a href="{{ route('admin.inventory.index') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;text-decoration:none;border-bottom:1px solid #F1F5F9;">
+                <span style="width:8px;height:8px;background:#F59E0B;flex-shrink:0;"></span>
+                <span style="font-size:12px;color:#475569;">{{ $lowStockCount }} products low on stock</span>
+            </a>
+        @endif
+        
+        @if($outOfStock > 0)
+            <a href="{{ route('admin.inventory.index') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;text-decoration:none;border-bottom:1px solid #F1F5F9;">
+                <span style="width:8px;height:8px;background:#EF4444;flex-shrink:0;"></span>
+                <span style="font-size:12px;color:#475569;">{{ $outOfStock }} products out of stock</span>
+            </a>
+        @endif
+        
+        @if($totalAlerts == 0)
+            <div style="padding:20px;text-align:center;font-size:12px;color:#94A3B8;">No new notifications</div>
+        @endif
+    </div>
+</div>
+
+<script>
+    function toggleNotifDropdown() {
+        var d = document.getElementById('notifDropdown');
+        d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            document.getElementById('notifDropdown').style.display = 'none';
+        }
+    });
+</script>
+
 
                 <!-- User Dropdown -->
                 <div class="dropdown" style="position: relative;">
@@ -1319,13 +1365,18 @@ nav[role="navigation"] p.text-sm {
                             </svg>
                             Profile
                         </a>
-                        <a href="#" class="dropdown-item">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="3"/>
-                                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-                            </svg>
-                            Settings
-                        </a>
+        <!-- Settings -->
+        @if(Route::has('admin.settings.index'))
+        <a href="{{ route('admin.settings.index') }}" class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                </svg>
+            </span>
+            <span class="nav-label">Settings</span>
+        </a>
+        @endif
                         <hr class="dropdown-divider">
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
