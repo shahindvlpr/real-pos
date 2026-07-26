@@ -190,17 +190,18 @@
         </a>
         @endif
 
-        <!-- Sales Return -->
-        <a href="#" class="nav-link disabled">
-            <span class="nav-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="1 4 1 10 7 10"/>
-                    <path d="M3.51 15a9 9 0 102.13-9.36L1 10"/>
-                </svg>
-            </span>
-            <span class="nav-label">Sales Return</span>
-            <span class="nav-badge">Soon</span>
-        </a>
+<!-- Sales Return -->
+@if(Route::has('admin.sales.returns.index'))
+<a href="{{ route('admin.sales.returns.index') }}" class="nav-link {{ request()->routeIs('admin.sales.returns.*') ? 'active' : '' }}">
+    <span class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="1 4 1 10 7 10"/>
+            <path d="M3.51 15a9 9 0 102.13-9.36L1 10"/>
+        </svg>
+    </span>
+    <span class="nav-label">Sales Return</span>
+</a>
+@endif
 
         <!-- Divider -->
         <div class="nav-divider">

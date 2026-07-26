@@ -136,3 +136,12 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->name('admin.')
     Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
 });
+
+// Sales Return Routes
+Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/sales/returns', [\App\Http\Controllers\Admin\SaleReturnController::class, 'index'])->name('sales.returns.index');
+    Route::get('/sales/returns/create', [\App\Http\Controllers\Admin\SaleReturnController::class, 'create'])->name('sales.returns.create');
+    Route::post('/sales/returns/find', [\App\Http\Controllers\Admin\SaleReturnController::class, 'findSale'])->name('sales.returns.find');
+    Route::post('/sales/returns', [\App\Http\Controllers\Admin\SaleReturnController::class, 'store'])->name('sales.returns.store');
+    Route::get('/sales/returns/{saleReturn}', [\App\Http\Controllers\Admin\SaleReturnController::class, 'show'])->name('sales.returns.show');
+});
