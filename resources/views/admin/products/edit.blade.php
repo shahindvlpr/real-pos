@@ -23,11 +23,19 @@
     .form-group { display: flex; flex-direction: column; gap: 4px; }
     .form-label { font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
     .form-label .req { color: #EF4444; }
-    .form-input, .form-select, .form-textarea { padding: 9px 12px; border: 1px solid #E2E8F0; font-size: 13px; color: #0F172A; font-family: 'Inter', sans-serif; width: 100%; background: #FFF; }
+    .form-input, .form-select, .form-textarea { padding: 9px 12px; border: 1px solid #E2E8F0; font-size: 13px; color: #0F172A; font-family: 'Inter', sans-serif; width: 100%; background: #FFF; transition: all 0.15s; }
     .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59,130,246,0.08); }
     .form-textarea { resize: vertical; min-height: 70px; }
     .form-hint { font-size: 10px; color: #94A3B8; }
-    .file-upload { border: 2px dashed #E2E8F0; padding: 30px; text-align: center; cursor: pointer; background: #FAFBFC; }
+    
+    /* Barcode Scanner Field */
+    .barcode-field { position: relative; }
+    .barcode-field .scan-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #3B82F6; animation: scanPulse 2s infinite; }
+    @keyframes scanPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .barcode-field input { padding-right: 40px; font-size: 14px; font-weight: 600; letter-spacing: 0.5px; }
+    .barcode-field input:focus { border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+    
+    .file-upload { border: 2px dashed #E2E8F0; padding: 30px; text-align: center; cursor: pointer; background: #FAFBFC; transition: all 0.15s; }
     .file-upload:hover { border-color: #3B82F6; background: #EFF6FF; }
     .current-img { display: flex; align-items: center; gap: 12px; padding: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; margin-bottom: 12px; }
     .current-img img { width: 56px; height: 56px; object-fit: cover; border: 1px solid #E2E8F0; }
@@ -36,6 +44,14 @@
     .btn-update { padding: 10px 24px; background: #F59E0B; border: 1px solid #F59E0B; color: #FFF; font-size: 12px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
     .btn-cancel:hover { background: #F1F5F9; }
     .btn-update:hover { background: #D97706; }
+    
+    .error-alert { background: #FEF2F2; border: 1px solid #FECACA; padding: 12px 16px; color: #DC2626; font-size: 12px; display: flex; align-items: flex-start; gap: 8px; }
+    .error-alert ul { margin: 0; padding-left: 16px; }
+    .info-alert { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #EFF6FF; border: 1px solid #BFDBFE; margin-bottom: 20px; }
+    .info-alert-icon { width: 32px; height: 32px; background: #DBEAFE; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .info-alert-icon svg { width: 16px; height: 16px; stroke: #3B82F6; }
+    .info-alert-text { font-size: 12px; color: #1E40AF; font-weight: 500; }
+    
     @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
 </style>
 @endpush
@@ -44,12 +60,34 @@
 <div class="form-wrapper">
     <div class="form-card">
         <div class="form-header">
-            <div class="form-header-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
-            <div><div class="form-header-title">Edit: {{ $product->name }}</div><div class="form-header-subtitle">SKU: {{ $product->sku }}</div></div>
+            <div class="form-header-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </div>
+            <div>
+                <div class="form-header-title">Edit: {{ $product->name }}</div>
+                <div class="form-header-subtitle">SKU: {{ $product->sku }} | Update barcode or other info</div>
+            </div>
+        </div>
+
+        <!-- Info Alert -->
+        <div style="padding: 0 28px; margin-top: 20px;">
+            <div class="info-alert">
+                <div class="info-alert-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div class="info-alert-text">
+                    Editing: <strong>{{ $product->name }}</strong> | Barcode: {{ $product->barcode ?? 'Not set' }} | Stock: {{ $product->stock_quantity }}
+                </div>
+            </div>
         </div>
 
         @if($errors->any())
-            <div style="padding:0 28px;margin-top:20px;"><div style="background:#FEF2F2;border:1px solid #FECACA;padding:12px 16px;color:#DC2626;font-size:12px;"><ul style="margin:0;padding-left:18px;">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul></div></div>
+            <div style="padding: 0 28px; margin-top: 16px;">
+                <div class="error-alert">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <ul>@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
+                </div>
+            </div>
         @endif
 
         <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
@@ -59,10 +97,29 @@
                 <div class="form-section">
                     <div class="section-title">Basic Information</div>
                     <div class="grid-2">
-                        <div class="form-group full"><label class="form-label">Product Name <span class="req">*</span></label><input type="text" name="name" value="{{ old('name', $product->name) }}" class="form-input" required></div>
-                        <div class="form-group"><label class="form-label">SKU</label><input type="text" name="sku" value="{{ old('sku', $product->sku) }}" class="form-input"></div>
-                        <div class="form-group"><label class="form-label">Barcode</label><input type="text" name="barcode" value="{{ old('barcode', $product->barcode) }}" class="form-input"></div>
-                        <div class="form-group full"><label class="form-label">Description</label><textarea name="description" class="form-textarea">{{ old('description', $product->description) }}</textarea></div>
+                        <div class="form-group full">
+                            <label class="form-label">Product Name <span class="req">*</span></label>
+                            <input type="text" name="name" value="{{ old('name', $product->name) }}" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">SKU</label>
+                            <input type="text" name="sku" value="{{ old('sku', $product->sku) }}" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                Barcode
+                                <span style="font-size:9px;color:#3B82F6;font-weight:500;">📷 Scan to update</span>
+                            </label>
+                            <div class="barcode-field">
+                                <input type="text" name="barcode" id="barcodeInput" value="{{ old('barcode', $product->barcode) }}" class="form-input" placeholder="Scan new barcode or type..." autocomplete="off">
+                                <span class="scan-icon">📷</span>
+                            </div>
+                            <span class="form-hint">Use barcode scanner to update</span>
+                        </div>
+                        <div class="form-group full">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" class="form-textarea">{{ old('description', $product->description) }}</textarea>
+                        </div>
                     </div>
                 </div>
 
@@ -128,4 +185,51 @@
         </form>
     </div>
 </div>
+
+<script>
+    // Barcode Scanner Integration
+    var barcodeInput = document.getElementById('barcodeInput');
+    var barcodeBuffer = '';
+    var barcodeTimer = null;
+    var lastKeyTime = 0;
+
+    barcodeInput.addEventListener('keydown', function(e) {
+        var currentTime = new Date().getTime();
+        var timeDiff = currentTime - lastKeyTime;
+        lastKeyTime = currentTime;
+
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (barcodeBuffer.length >= 6) {
+                showToast('Barcode updated: ' + barcodeBuffer, 'success');
+            }
+            barcodeBuffer = '';
+            clearTimeout(barcodeTimer);
+            return;
+        }
+
+        if (timeDiff < 50 && e.key.length === 1) {
+            barcodeBuffer += e.key;
+            clearTimeout(barcodeTimer);
+            barcodeTimer = setTimeout(function() { barcodeBuffer = ''; }, 200);
+        } else if (e.key.length === 1) {
+            barcodeBuffer = '';
+        }
+    });
+
+    function showToast(msg, type) {
+        var t = document.createElement('div');
+        t.style.cssText = 'position:fixed;top:16px;right:16px;z-index:9999;padding:10px 18px;color:#FFF;font-size:12px;font-weight:600;background:' + (type === 'error' ? '#EF4444' : '#10B981') + ';animation:slideIn 0.3s ease;';
+        t.textContent = msg;
+        document.body.appendChild(t);
+        setTimeout(function() { t.remove(); }, 2000);
+    }
+</script>
+
+<style>
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+</style>
 @endsection

@@ -19,23 +19,54 @@
     .section-title { font-size: 10px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid #F1F5F9; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
     .full { grid-column: 1 / -1; }
     .form-group { display: flex; flex-direction: column; gap: 4px; }
     .form-label { font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
     .form-label .req { color: #EF4444; }
-    .form-input, .form-select, .form-textarea { padding: 9px 12px; border: 1px solid #E2E8F0; font-size: 13px; color: #0F172A; font-family: 'Inter', sans-serif; width: 100%; background: #FFF; }
+    .form-input, .form-select, .form-textarea { padding: 9px 12px; border: 1px solid #E2E8F0; font-size: 13px; color: #0F172A; font-family: 'Inter', sans-serif; width: 100%; background: #FFF; transition: all 0.15s; }
     .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59,130,246,0.08); }
     .form-textarea { resize: vertical; min-height: 70px; }
     .form-hint { font-size: 10px; color: #94A3B8; }
-    .file-upload { border: 2px dashed #E2E8F0; padding: 30px; text-align: center; cursor: pointer; background: #FAFBFC; }
+    
+    /* Barcode Scanner Field */
+    .barcode-field {
+        position: relative;
+    }
+    .barcode-field .scan-icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #3B82F6;
+        animation: scanPulse 2s infinite;
+    }
+    @keyframes scanPulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+    }
+    .barcode-field input {
+        padding-right: 40px;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+    .barcode-field input:focus {
+        border-color: #3B82F6;
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    }
+    
+    .file-upload { border: 2px dashed #E2E8F0; padding: 30px; text-align: center; cursor: pointer; background: #FAFBFC; transition: all 0.15s; }
     .file-upload:hover { border-color: #3B82F6; background: #EFF6FF; }
     .form-actions { padding: 18px 28px; border-top: 1px solid #E2E8F0; display: flex; justify-content: flex-end; gap: 12px; background: #FAFBFC; }
     .btn-cancel { padding: 10px 20px; background: #FFF; border: 1px solid #E2E8F0; color: #475569; font-size: 12px; font-weight: 600; text-transform: uppercase; text-decoration: none; }
     .btn-save { padding: 10px 24px; background: #3B82F6; border: 1px solid #3B82F6; color: #FFF; font-size: 12px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
     .btn-cancel:hover { background: #F1F5F9; }
     .btn-save:hover { background: #2563EB; }
-    @media (max-width: 768px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+    
+    .error-alert { background: #FEF2F2; border: 1px solid #FECACA; padding: 12px 16px; color: #DC2626; font-size: 12px; display: flex; align-items: flex-start; gap: 8px; }
+    .error-alert ul { margin: 0; padding-left: 16px; }
+    
+    @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
 </style>
 @endpush
 
@@ -43,12 +74,22 @@
 <div class="form-wrapper">
     <div class="form-card">
         <div class="form-header">
-            <div class="form-header-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div>
-            <div><div class="form-header-title">Create New Product</div><div class="form-header-subtitle">Add product details to your inventory</div></div>
+            <div class="form-header-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            </div>
+            <div>
+                <div class="form-header-title">Create New Product</div>
+                <div class="form-header-subtitle">Scan barcode or fill manually</div>
+            </div>
         </div>
 
         @if($errors->any())
-            <div style="padding: 0 28px; margin-top: 20px;"><div style="background:#FEF2F2; border:1px solid #FECACA; padding:12px 16px; color:#DC2626; font-size:12px;"><ul style="margin:0;padding-left:18px;">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul></div></div>
+            <div style="padding: 0 28px; margin-top: 20px;">
+                <div class="error-alert">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <ul>@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
+                </div>
+            </div>
         @endif
 
         <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
@@ -60,7 +101,7 @@
                     <div class="grid-2">
                         <div class="form-group full">
                             <label class="form-label">Product Name <span class="req">*</span></label>
-                            <input type="text" name="name" value="{{ old('name') }}" class="form-input" placeholder="Enter product name" required>
+                            <input type="text" name="name" id="productName" value="{{ old('name') }}" class="form-input" placeholder="Enter product name" required autofocus>
                         </div>
                         <div class="form-group">
                             <label class="form-label">SKU</label>
@@ -68,8 +109,15 @@
                             <span class="form-hint">Leave empty for auto-generate</span>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Barcode</label>
-                            <input type="text" name="barcode" value="{{ old('barcode') }}" class="form-input" placeholder="Barcode number">
+                            <label class="form-label">
+                                Barcode
+                                <span style="font-size:9px;color:#3B82F6;font-weight:500;">📷 Scan Ready</span>
+                            </label>
+                            <div class="barcode-field">
+                                <input type="text" name="barcode" id="barcodeInput" value="{{ old('barcode') }}" class="form-input" placeholder="Scan barcode or type..." autocomplete="off">
+                                <span class="scan-icon">📷</span>
+                            </div>
+                            <span class="form-hint">Use barcode scanner or type manually</span>
                         </div>
                         <div class="form-group full">
                             <label class="form-label">Description</label>
@@ -109,27 +157,21 @@
                             <label class="form-label">Category</label>
                             <select name="category_id" class="form-select">
                                 <option value="">Select Category</option>
-                                @foreach($categories as $cat)
-                                    <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
-                                @endforeach
+                                @foreach($categories as $cat)<option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>@endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Brand</label>
                             <select name="brand_id" class="form-select">
                                 <option value="">Select Brand</option>
-                                @foreach($brands as $brand)
-                                    <option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->name }}</option>
-                                @endforeach
+                                @foreach($brands as $brand)<option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->name }}</option>@endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Unit</label>
                             <select name="unit_id" class="form-select">
                                 <option value="">Select Unit</option>
-                                @foreach($units as $unit)
-                                    <option value="{{ $unit->id }}" {{ old('unit_id') == $unit->id ? 'selected' : '' }}>{{ $unit->name }} ({{ $unit->code }})</option>
-                                @endforeach
+                                @foreach($units as $unit)<option value="{{ $unit->id }}" {{ old('unit_id') == $unit->id ? 'selected' : '' }}>{{ $unit->name }} ({{ $unit->code }})</option>@endforeach
                             </select>
                         </div>
                     </div>
@@ -141,7 +183,7 @@
                     <div class="grid-3">
                         <div class="form-group">
                             <label class="form-label">Quantity <span class="req">*</span></label>
-                            <input type="number" name="stock_quantity" value="{{ old('stock_quantity', 0) }}" class="form-input" required>
+                            <input type="number" name="stock_quantity" id="stockQty" value="{{ old('stock_quantity', 0) }}" class="form-input" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Min Stock Alert</label>
@@ -176,4 +218,77 @@
         </form>
     </div>
 </div>
+
+<script>
+    // Barcode Scanner Integration
+    var barcodeInput = document.getElementById('barcodeInput');
+    var barcodeBuffer = '';
+    var barcodeTimer = null;
+    var lastKeyTime = 0;
+
+    barcodeInput.addEventListener('keydown', function(e) {
+        var currentTime = new Date().getTime();
+        var timeDiff = currentTime - lastKeyTime;
+        lastKeyTime = currentTime;
+
+        // Enter key pressed
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            
+            if (barcodeBuffer.length >= 6) {
+                // Barcode scanned - move to product name
+                document.getElementById('productName').focus();
+                showToast('Barcode captured: ' + barcodeBuffer, 'success');
+            }
+            
+            barcodeBuffer = '';
+            clearTimeout(barcodeTimer);
+            return;
+        }
+
+        // Fast typing = barcode scanner
+        if (timeDiff < 50 && e.key.length === 1) {
+            barcodeBuffer += e.key;
+            
+            clearTimeout(barcodeTimer);
+            barcodeTimer = setTimeout(function() {
+                barcodeBuffer = '';
+            }, 200);
+        } else if (e.key.length === 1) {
+            barcodeBuffer = '';
+        }
+    });
+
+    // Auto-focus barcode input on page load
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            barcodeInput.focus();
+        }, 300);
+    });
+
+    // Click anywhere in form to refocus barcode if empty
+    document.querySelector('.form-card').addEventListener('click', function(e) {
+        if (!e.target.closest('input, select, textarea, button, .file-upload') && !barcodeInput.value) {
+            barcodeInput.focus();
+        }
+    });
+
+    // Toast notification
+    function showToast(msg, type) {
+        var t = document.createElement('div');
+        t.style.cssText = 'position:fixed;top:16px;right:16px;z-index:9999;padding:10px 18px;color:#FFF;font-size:12px;font-weight:600;background:' + (type === 'error' ? '#EF4444' : '#10B981') + ';animation:slideIn 0.3s ease;';
+        t.textContent = msg;
+        document.body.appendChild(t);
+        setTimeout(function() { t.remove(); }, 2000);
+    }
+
+    console.log('📷 Barcode Scanner Ready - Product Create');
+</script>
+
+<style>
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+</style>
 @endsection

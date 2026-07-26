@@ -145,3 +145,6 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->name('admin.')
     Route::post('/sales/returns', [\App\Http\Controllers\Admin\SaleReturnController::class, 'store'])->name('sales.returns.store');
     Route::get('/sales/returns/{saleReturn}', [\App\Http\Controllers\Admin\SaleReturnController::class, 'show'])->name('sales.returns.show');
 });
+
+// Print Invoice Route
+Route::get('/pos/invoice/{id}/print', [\App\Http\Controllers\Admin\PosController::class, 'printInvoice'])->name('pos.print');

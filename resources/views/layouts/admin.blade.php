@@ -40,6 +40,19 @@
             --info-dark: #0891B2;
             --success: #10B981;
             --success-dark: #059669;
+                --body-bg: #F1F5F9;
+    --card-bg: #FFFFFF;
+    --card-border: #E2E8F0;
+    --text-primary: #0F172A;
+    --text-secondary: #64748B;
+    --text-muted: #94A3B8;
+    --topbar-bg: #FFFFFF;
+    --topbar-border: #E2E8F0;
+    --sidebar-bg: #0F172A;
+    --sidebar-text: #94A3B8;
+    --sidebar-active: #1E3A5F;
+    --input-bg: #FFFFFF;
+    --input-border: #E2E8F0;
         }
 
         * {
@@ -1271,6 +1284,581 @@ nav[role="navigation"] p.text-sm {
     width: 100%;
     margin: 0 auto;
 }
+
+/* ========================================== */
+/* DARK MODE - COMPLETE */
+/* ========================================== */
+body.dark-mode {
+    --body-bg: #0F172A;
+    --card-bg: #1E293B;
+    --card-border: #334155;
+    --text-primary: #F1F5F9;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --topbar-bg: #1E293B;
+    --topbar-border: #334155;
+    --input-bg: #1A2332;
+    --input-border: #334155;
+}
+
+/* Background */
+body.dark-mode .main-content,
+body.dark-mode .page-content {
+    background: var(--body-bg) !important;
+}
+
+body.dark-mode {
+    background: var(--body-bg) !important;
+}
+
+/* Cards */
+body.dark-mode .card,
+body.dark-mode .stat-card,
+body.dark-mode .info-card,
+body.dark-mode .form-card,
+body.dark-mode .table-card,
+body.dark-mode .settings-card,
+body.dark-mode .detail-card,
+body.dark-mode .report-card,
+body.dark-mode .supplier-card,
+body.dark-mode .customer-card {
+    background: var(--card-bg) !important;
+    border-color: var(--card-border) !important;
+}
+
+/* Card Headers */
+body.dark-mode .card-header,
+body.dark-mode .form-header,
+body.dark-mode .settings-header,
+body.dark-mode .detail-header,
+body.dark-mode .report-card-header,
+body.dark-mode .card-header-row,
+body.dark-mode .info-card-header {
+    border-color: var(--card-border) !important;
+    background: var(--card-bg) !important;
+}
+
+body.dark-mode .card-header h5,
+body.dark-mode .form-header-title,
+body.dark-mode .settings-header,
+body.dark-mode .detail-header,
+body.dark-mode .report-card-header,
+body.dark-mode .info-card-title,
+body.dark-mode .brand-name,
+body.dark-mode .category-name,
+body.dark-mode .product-name,
+body.dark-mode .customer-name,
+body.dark-mode .supplier-name {
+    color: var(--text-primary) !important;
+}
+
+/* Top Bar */
+body.dark-mode .top-bar {
+    background: var(--topbar-bg) !important;
+    border-color: var(--topbar-border) !important;
+}
+
+body.dark-mode .top-bar h4,
+body.dark-mode .top-bar-left h4 {
+    color: #F1F5F9 !important;
+}
+
+body.dark-mode .top-bar .subtitle,
+body.dark-mode .top-bar .text-muted {
+    color: #94A3B8 !important;
+}
+
+/* Tables */
+body.dark-mode .table {
+    background: var(--card-bg) !important;
+}
+
+body.dark-mode .table th {
+    background: #1A2332 !important;
+    color: #94A3B8 !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .table td {
+    color: #E2E8F0 !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .table tbody tr:hover {
+    background: #1A2332 !important;
+}
+
+body.dark-mode .table tbody tr:nth-child(even) {
+    background: #1A2332;
+}
+
+/* Forms */
+body.dark-mode .form-input,
+body.dark-mode .form-select,
+body.dark-mode .form-textarea {
+    background: var(--input-bg) !important;
+    border-color: var(--input-border) !important;
+    color: #E2E8F0 !important;
+}
+
+body.dark-mode .form-input:focus,
+body.dark-mode .form-select:focus,
+body.dark-mode .form-textarea:focus {
+    border-color: #3B82F6 !important;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15) !important;
+}
+
+body.dark-mode .form-input::placeholder,
+body.dark-mode .form-textarea::placeholder {
+    color: #64748B !important;
+}
+
+body.dark-mode .form-label {
+    color: #CBD5E1 !important;
+}
+
+body.dark-mode .form-hint {
+    color: #64748B !important;
+}
+
+/* Labels & Text */
+body.dark-mode .info-label {
+    color: #94A3B8 !important;
+}
+
+body.dark-mode .info-value {
+    color: #E2E8F0 !important;
+}
+
+body.dark-mode .info-value.success {
+    color: #34D399 !important;
+}
+
+body.dark-mode .info-value.danger {
+    color: #F87171 !important;
+}
+
+body.dark-mode .text-muted {
+    color: #94A3B8 !important;
+}
+
+body.dark-mode .stat-label {
+    color: #94A3B8 !important;
+}
+
+body.dark-mode .stat-value {
+    color: #F1F5F9 !important;
+}
+
+/* Stat Cards */
+body.dark-mode .stat-card:hover {
+    border-color: #3B82F6 !important;
+}
+
+/* Customer/Supplier Cards */
+body.dark-mode .customer-card:hover,
+body.dark-mode .supplier-card:hover {
+    border-color: #3B82F6 !important;
+    background: #1A2332 !important;
+}
+
+/* Status Badges */
+body.dark-mode .status-badge.active {
+    background: #064E3B !important;
+    color: #34D399 !important;
+}
+
+body.dark-mode .status-badge.inactive {
+    background: #1A2332 !important;
+    color: #64748B !important;
+}
+
+/* Role Badges */
+body.dark-mode .role-badge.role-admin {
+    background: #7F1D1D !important;
+    color: #FCA5A5 !important;
+}
+
+body.dark-mode .role-badge.role-manager {
+    background: #78350F !important;
+    color: #FCD34D !important;
+}
+
+/* Buttons */
+body.dark-mode .btn-cancel {
+    background: #1E293B !important;
+    border-color: #334155 !important;
+    color: #CBD5E1 !important;
+}
+
+body.dark-mode .btn-cancel:hover {
+    background: #334155 !important;
+}
+
+body.dark-mode .btn-icon {
+    background: #1E293B !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .btn-icon svg {
+    stroke: #CBD5E1 !important;
+}
+
+/* Pagination */
+body.dark-mode .pagination li a,
+body.dark-mode .pagination li span {
+    background: #1E293B !important;
+    border-color: #334155 !important;
+    color: #CBD5E1 !important;
+}
+
+body.dark-mode .pagination li a:hover {
+    background: #334155 !important;
+}
+
+body.dark-mode .pagination li.active span {
+    background: #3B82F6 !important;
+    border-color: #3B82F6 !important;
+    color: #FFF !important;
+}
+
+/* Dropdown */
+body.dark-mode .dropdown-menu {
+    background: #1E293B !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .dropdown-item {
+    color: #E2E8F0 !important;
+}
+
+body.dark-mode .dropdown-item:hover {
+    background: #334155 !important;
+}
+
+body.dark-mode .dropdown-divider {
+    border-color: #334155 !important;
+}
+
+/* User Dropdown */
+body.dark-mode .user-dropdown:hover {
+    background: #1E293B !important;
+}
+
+body.dark-mode .user-name {
+    color: #F1F5F9 !important;
+}
+
+/* Alert */
+body.dark-mode .alert-success {
+    background: #064E3B !important;
+    border-color: #065F46 !important;
+    color: #6EE7B7 !important;
+}
+
+body.dark-mode .alert-danger {
+    background: #7F1D1D !important;
+    border-color: #991B1B !important;
+    color: #FCA5A5 !important;
+}
+
+/* Settings */
+body.dark-mode .settings-card,
+body.dark-mode .settings-body {
+    background: var(--card-bg) !important;
+}
+
+/* Activity */
+body.dark-mode .activity-title {
+    color: #E2E8F0 !important;
+}
+
+body.dark-mode .activity-sub {
+    color: #94A3B8 !important;
+}
+
+/* Info Row */
+body.dark-mode .info-row {
+    border-color: #334155 !important;
+}
+
+/* Hr */
+body.dark-mode hr {
+    border-color: #334155 !important;
+}
+
+/* Section Title */
+body.dark-mode .section-title,
+body.dark-mode .form-section-title {
+    color: #94A3B8 !important;
+    border-color: #334155 !important;
+}
+
+/* File Upload */
+body.dark-mode .file-upload-area,
+body.dark-mode .file-upload-box {
+    background: #1A2332 !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .file-upload-text {
+    color: #CBD5E1 !important;
+}
+
+/* Status Toggle */
+body.dark-mode .status-toggle {
+    background: #1A2332 !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .toggle-label {
+    color: #CBD5E1 !important;
+}
+
+/* Checkbox */
+body.dark-mode .checkbox-group {
+    background: #1A2332 !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .checkbox-label {
+    color: #CBD5E1 !important;
+}
+
+/* Info Alert */
+body.dark-mode .info-alert {
+    background: #1E3A5F !important;
+    border-color: #1E4D8C !important;
+}
+
+body.dark-mode .info-alert-text {
+    color: #93C5FD !important;
+}
+
+/* Empty State */
+body.dark-mode .empty-state {
+    background: var(--card-bg) !important;
+    border-color: var(--card-border) !important;
+}
+
+body.dark-mode .empty-icon,
+body.dark-mode .empty-icon-box {
+    background: #1A2332 !important;
+}
+
+body.dark-mode .empty-title {
+    color: #E2E8F0 !important;
+}
+
+body.dark-mode .empty-desc {
+    color: #94A3B8 !important;
+}
+
+/* Brand/Product/Category specific */
+body.dark-mode .category-slug,
+body.dark-mode .brand-slug {
+    color: #94A3B8 !important;
+}
+
+body.dark-mode .supplier-company,
+body.dark-mode .customer-email,
+body.dark-mode .customer-contact {
+    color: #94A3B8 !important;
+}
+
+/* Sidebar stays dark always */
+body.dark-mode .sidebar {
+    background: #060B14 !important;
+    border-color: #1A2332 !important;
+}
+
+/* Mobile Toggle */
+body.dark-mode .sidebar-toggle {
+    background: #1E293B !important;
+    border-color: #334155 !important;
+}
+
+/* POS specific */
+body.dark-mode .pos-wrapper {
+    background: #0F172A !important;
+}
+
+body.dark-mode .pos-products {
+    background: #0F172A !important;
+}
+
+body.dark-mode .pos-topbar,
+body.dark-mode .pos-pagination {
+    background: #1E293B !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .pos-cart {
+    background: #1E293B !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .product-card {
+    background: #1E293B !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .product-card:hover {
+    border-color: #3B82F6 !important;
+}
+
+body.dark-mode .pc-name {
+    color: #E2E8F0 !important;
+}
+
+body.dark-mode .cart-header,
+body.dark-mode .cart-footer,
+body.dark-mode .cart-customer {
+    background: #1A2332 !important;
+    border-color: #334155 !important;
+}
+
+body.dark-mode .cart-title {
+    color: #F1F5F9 !important;
+}
+
+body.dark-mode .cart-item-row {
+    border-color: #334155 !important;
+}
+
+body.dark-mode .cart-item-row:hover {
+    background: #1A2332 !important;
+}
+
+body.dark-mode .cart-item-name {
+    color: #E2E8F0 !important;
+}
+
+body.dark-mode .cart-item-total {
+    color: #F1F5F9 !important;
+}
+
+body.dark-mode .qty-group {
+    border-color: #334155 !important;
+    background: #0F172A !important;
+}
+
+body.dark-mode .qty-btn {
+    background: #1A2332 !important;
+    color: #CBD5E1 !important;
+}
+
+body.dark-mode .qty-value {
+    color: #F1F5F9 !important;
+}
+
+body.dark-mode .summary-row {
+    color: #94A3B8 !important;
+}
+
+body.dark-mode .total-label,
+body.dark-mode .total-value {
+    color: #F1F5F9 !important;
+}
+
+body.dark-mode .payment-option {
+    background: #1A2332 !important;
+    border-color: #334155 !important;
+    color: #94A3B8 !important;
+}
+
+body.dark-mode .payment-option.active {
+    background: #1E3A5F !important;
+    border-color: #3B82F6 !important;
+    color: #60A5FA !important;
+}
+
+body.dark-mode .paid-input {
+    background: #0F172A !important;
+    border-color: #334155 !important;
+    color: #F1F5F9 !important;
+}
+
+/* Collapsible Sidebar */
+:root {
+    --sidebar-width: 260px;
+    --sidebar-collapsed-width: 70px;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    transition: width 0.25s ease;
+}
+
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed-width);
+}
+
+.sidebar.collapsed .brand-name,
+.sidebar.collapsed .brand-subtitle,
+.sidebar.collapsed .brand-version,
+.sidebar.collapsed .nav-label,
+.sidebar.collapsed .nav-count,
+.sidebar.collapsed .nav-badge,
+.sidebar.collapsed .nav-arrow,
+.sidebar.collapsed .nav-indicator,
+.sidebar.collapsed .nav-divider span,
+.sidebar.collapsed .sidebar-footer-wrap {
+    display: none !important;
+}
+
+.sidebar.collapsed .brand-info {
+    display: none;
+}
+
+.sidebar.collapsed .sidebar-header {
+    justify-content: center;
+    padding: 16px 10px;
+}
+
+.sidebar.collapsed .nav-link {
+    justify-content: center;
+    padding: 12px 10px;
+}
+
+.sidebar.collapsed .nav-icon {
+    margin-right: 0;
+}
+
+.sidebar.collapsed .nav-link:hover .nav-label {
+    display: block !important;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background: #0F172A;
+    color: #FFF;
+    padding: 10px 14px;
+    white-space: nowrap;
+    z-index: 1000;
+    border: 1px solid #1E2A3A;
+}
+
+/* Main content margin */
+.main-content {
+    margin-left: var(--sidebar-width);
+    transition: margin 0.25s ease;
+}
+
+.sidebar.collapsed ~ .main-content {
+    margin-left: var(--sidebar-collapsed-width);
+}
+
+.sidebar-toggle-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@media (max-width: 992px) {
+    .sidebar.collapsed ~ .main-content {
+        margin-left: 0;
+    }
+}
     </style>
 
     @stack('styles')
@@ -1289,46 +1877,52 @@ nav[role="navigation"] p.text-sm {
             </div>
             <div class="top-bar-right">
 
-<!-- Notification Bell - All Alerts in One -->
-<div class="dropdown" style="position: relative;">
-    <button class="btn-icon" title="Notifications" onclick="toggleNotifDropdown()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-        </svg>
-        @php 
-            $lowStockCount = \App\Models\Product::whereColumn('stock_quantity', '<=', 'min_stock_quantity')->where('stock_quantity', '>', 0)->count();
-            $outOfStock = \App\Models\Product::where('stock_quantity', 0)->count();
-            $totalAlerts = $lowStockCount + $outOfStock;
-        @endphp
-        @if($totalAlerts > 0)
-            <span style="position:absolute;top:-4px;right:-4px;background:#EF4444;color:#FFF;font-size:9px;font-weight:700;min-width:16px;height:16px;display:flex;align-items:center;justify-content:center;padding:0 4px;">{{ $totalAlerts }}</span>
-        @endif
-    </button>
-    
-    <!-- Dropdown -->
-    <div id="notifDropdown" style="display:none;position:absolute;top:100%;right:0;background:#FFF;border:1px solid #E2E8F0;min-width:280px;z-index:1050;box-shadow:0 10px 30px rgba(0,0,0,0.1);">
-        <div style="padding:12px 16px;border-bottom:1px solid #E2E8F0;font-size:12px;font-weight:700;color:#0F172A;">Notifications</div>
-        
-        @if($lowStockCount > 0)
-            <a href="{{ route('admin.inventory.index') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;text-decoration:none;border-bottom:1px solid #F1F5F9;">
-                <span style="width:8px;height:8px;background:#F59E0B;flex-shrink:0;"></span>
-                <span style="font-size:12px;color:#475569;">{{ $lowStockCount }} products low on stock</span>
-            </a>
-        @endif
-        
-        @if($outOfStock > 0)
-            <a href="{{ route('admin.inventory.index') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;text-decoration:none;border-bottom:1px solid #F1F5F9;">
-                <span style="width:8px;height:8px;background:#EF4444;flex-shrink:0;"></span>
-                <span style="font-size:12px;color:#475569;">{{ $outOfStock }} products out of stock</span>
-            </a>
-        @endif
-        
-        @if($totalAlerts == 0)
-            <div style="padding:20px;text-align:center;font-size:12px;color:#94A3B8;">No new notifications</div>
-        @endif
-    </div>
-</div>
+                <!-- Notification Bell - All Alerts in One -->
+                <!-- Dark/Light Toggle -->
+                <button class="btn-icon" onclick="toggleTheme()" title="Toggle Theme" id="themeToggle">
+                    <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                    </svg>
+                </button>
+                <div class="dropdown" style="position: relative;">
+                    <button class="btn-icon" title="Notifications" onclick="toggleNotifDropdown()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                        </svg>
+                        @php 
+                            $lowStockCount = \App\Models\Product::whereColumn('stock_quantity', '<=', 'min_stock_quantity')->where('stock_quantity', '>', 0)->count();
+                            $outOfStock = \App\Models\Product::where('stock_quantity', 0)->count();
+                            $totalAlerts = $lowStockCount + $outOfStock;
+                        @endphp
+                        @if($totalAlerts > 0)
+                            <span style="position:absolute;top:-4px;right:-4px;background:#EF4444;color:#FFF;font-size:9px;font-weight:700;min-width:16px;height:16px;display:flex;align-items:center;justify-content:center;padding:0 4px;">{{ $totalAlerts }}</span>
+                        @endif
+                    </button>
+                    
+                    <!-- Dropdown -->
+                    <div id="notifDropdown" style="display:none;position:absolute;top:100%;right:0;background:#FFF;border:1px solid #E2E8F0;min-width:280px;z-index:1050;box-shadow:0 10px 30px rgba(0,0,0,0.1);">
+                        <div style="padding:12px 16px;border-bottom:1px solid #E2E8F0;font-size:12px;font-weight:700;color:#0F172A;">Notifications</div>
+                        
+                        @if($lowStockCount > 0)
+                            <a href="{{ route('admin.inventory.index') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;text-decoration:none;border-bottom:1px solid #F1F5F9;">
+                                <span style="width:8px;height:8px;background:#F59E0B;flex-shrink:0;"></span>
+                                <span style="font-size:12px;color:#475569;">{{ $lowStockCount }} products low on stock</span>
+                            </a>
+                        @endif
+                        
+                        @if($outOfStock > 0)
+                            <a href="{{ route('admin.inventory.index') }}" style="display:flex;align-items:center;gap:10px;padding:10px 16px;text-decoration:none;border-bottom:1px solid #F1F5F9;">
+                                <span style="width:8px;height:8px;background:#EF4444;flex-shrink:0;"></span>
+                                <span style="font-size:12px;color:#475569;">{{ $outOfStock }} products out of stock</span>
+                            </a>
+                        @endif
+                        
+                        @if($totalAlerts == 0)
+                            <div style="padding:20px;text-align:center;font-size:12px;color:#94A3B8;">No new notifications</div>
+                        @endif
+                    </div>
+                </div>
 
 <script>
     function toggleNotifDropdown() {
@@ -1455,5 +2049,36 @@ nav[role="navigation"] p.text-sm {
     </script>
 
     @stack('scripts')
+    <script>
+    // Check saved theme
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+
+    function toggleTheme() {
+        document.body.classList.toggle('dark-mode');
+        
+        // Save preference
+        if (document.body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
+        }
+        
+        updateThemeIcon();
+    }
+
+    function updateThemeIcon() {
+        var icon = document.getElementById('themeIcon');
+        if (document.body.classList.contains('dark-mode')) {
+            icon.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+        } else {
+            icon.innerHTML = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>';
+        }
+    }
+
+    // Initial icon
+    updateThemeIcon();
+</script>
 </body>
 </html>

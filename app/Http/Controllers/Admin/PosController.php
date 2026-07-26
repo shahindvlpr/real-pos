@@ -17,7 +17,7 @@ class PosController extends Controller
     {
         $query = Product::with(['category', 'brand', 'unit'])->active();
 
-        // Search
+        // Search by name, SKU, or barcode
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -37,19 +37,20 @@ class PosController extends Controller
             $query->where('brand_id', $request->brand);
         }
 
-        $products = $query->paginate(12);
-        $categories = Category::active()->get();
-        $brands = Brand::active()->get();
+        $products = $query->orderBy('name')->paginate(12);
+        $categories = Category::active()->orderBy('name')->get();
+        $brands = Brand::active()->orderBy('name')->get();
 
         // Get cart from session
         $cart = session()->get('pos_cart', []);
 
-        // Calculate totals
+        // Calculate subtotal
         $subtotal = 0;
         foreach ($cart as $item) {
             $subtotal += $item['price'] * $item['quantity'];
         }
-        $customers = Customer::active()->get();
+        
+        $customers = Customer::active()->orderBy('name')->get();
 
         return view('admin.pos.index', compact(
             'products', 'categories', 'brands', 'cart', 'subtotal', 'customers'
@@ -79,7 +80,7 @@ class PosController extends Controller
 
         // Check stock
         if ($cart[$product->id]['quantity'] > $product->stock_quantity) {
-            return response()->json(['error' => 'Insufficient stock!'], 422);
+            return response()->json(['error' => 'Insufficient stock! Only ' . $product->stock_quantity . ' available.'], 422);
         }
 
         session()->put('pos_cart', $cart);
@@ -88,7 +89,7 @@ class PosController extends Controller
             'success' => true,
             'cart' => $cart,
             'cart_count' => count($cart),
-            'message' => 'Product added to cart!'
+            'message' => $product->name . ' added to cart!'
         ]);
     }
 
@@ -115,8 +116,12 @@ class PosController extends Controller
         if (isset($cart[$request->product_id])) {
             $product = Product::find($request->product_id);
             
+            if (!$product) {
+                return response()->json(['error' => 'Product not found!'], 422);
+            }
+            
             if ($request->quantity > $product->stock_quantity) {
-                return response()->json(['error' => 'Insufficient stock!'], 422);
+                return response()->json(['error' => 'Insufficient stock! Only ' . $product->stock_quantity . ' available.'], 422);
             }
             
             if ($request->quantity <= 0) {
@@ -132,76 +137,84 @@ class PosController extends Controller
     }
 
     public function checkout(Request $request)
-{
-    $cart = session()->get('pos_cart', []);
+    {
+        $cart = session()->get('pos_cart', []);
 
-    if (empty($cart)) {
-        return back()->with('error', 'Cart is empty!');
-    }
+        if (empty($cart)) {
+            return back()->with('error', 'Cart is empty!');
+        }
 
-    $request->validate([
-        'payment_method' => 'required|in:cash,card,bkash,nagad,rocket,bank',
-        'discount' => 'nullable|numeric|min:0',
-        'paid_amount' => 'required|numeric|min:0',
-        'customer_id' => 'nullable|exists:customers,id',
-        'notes' => 'nullable|string',
-    ]);
-
-    // Calculate totals
-    $subtotal = 0;
-    foreach ($cart as $item) {
-        $subtotal += $item['price'] * $item['quantity'];
-    }
-
-    $discount = $request->discount ?? 0;
-    $total = $subtotal - $discount;
-    $paid = $request->paid_amount;
-    $due = $total - $paid;
-
-    // Create Sale
-    $sale = Sale::create([
-        'invoice_no' => Sale::generateInvoiceNo(),
-        'customer_id' => $request->customer_id,
-        'user_id' => auth()->id(),
-        'subtotal' => $subtotal,
-        'discount' => $discount,
-        'tax' => 0,
-        'total' => $total,
-        'paid' => $paid,
-        'due' => $due > 0 ? $due : 0,
-        'payment_method' => $request->payment_method,
-        'payment_status' => $due > 0 ? 'partial' : 'paid',
-        'notes' => $request->notes,
-    ]);
-
-    // Create Sale Items & Update Stock
-    foreach ($cart as $item) {
-        SaleItem::create([
-            'sale_id' => $sale->id,
-            'product_id' => $item['id'],
-            'product_name' => $item['name'],
-            'product_sku' => $item['sku'],
-            'unit_price' => $item['price'],
-            'quantity' => $item['quantity'],
-            'total_price' => $item['price'] * $item['quantity'],
+        $request->validate([
+            'payment_method' => 'required|in:cash,card,bkash,nagad,rocket,bank',
+            'discount' => 'nullable|numeric|min:0',
+            'paid_amount' => 'required|numeric|min:0',
+            'customer_id' => 'nullable|exists:customers,id',
+            'notes' => 'nullable|string',
         ]);
 
-        // Reduce stock
-        $product = Product::find($item['id']);
-        if ($product) {
-            $product->decrement('stock_quantity', $item['quantity']);
+        // Calculate totals
+        $subtotal = 0;
+        foreach ($cart as $item) {
+            $subtotal += $item['price'] * $item['quantity'];
         }
+
+        $discount = $request->discount ?? 0;
+        $total = $subtotal - $discount;
+        $paid = $request->paid_amount;
+        $due = max($total - $paid, 0);
+
+        // Create Sale
+        $sale = Sale::create([
+            'invoice_no' => Sale::generateInvoiceNo(),
+            'customer_id' => $request->customer_id,
+            'user_id' => auth()->id(),
+            'subtotal' => $subtotal,
+            'discount' => $discount,
+            'tax' => 0,
+            'total' => $total,
+            'paid' => $paid,
+            'due' => $due,
+            'payment_method' => $request->payment_method,
+            'payment_status' => $due > 0 ? 'partial' : 'paid',
+            'notes' => $request->notes,
+        ]);
+
+        // Create Sale Items & Update Stock
+        foreach ($cart as $item) {
+            SaleItem::create([
+                'sale_id' => $sale->id,
+                'product_id' => $item['id'],
+                'product_name' => $item['name'],
+                'product_sku' => $item['sku'],
+                'unit_price' => $item['price'],
+                'quantity' => $item['quantity'],
+                'total_price' => $item['price'] * $item['quantity'],
+            ]);
+
+            // Reduce stock
+            $product = Product::find($item['id']);
+            if ($product) {
+                $product->decrement('stock_quantity', $item['quantity']);
+            }
+        }
+
+        // Clear cart
+        session()->forget('pos_cart');
+
+        // Redirect to print-friendly invoice
+        return redirect()->route('pos.print', $sale->id)
+            ->with('success', 'Sale completed! Invoice: ' . $sale->invoice_no);
     }
-
-    // Clear cart
-    session()->forget('pos_cart');
-
-    return redirect()->route('pos.invoice', $sale->id)
-        ->with('success', 'Sale completed! Invoice: ' . $sale->invoice_no);
-}
 
     public function invoice($id)
     {
-        return view('admin.pos.invoice');
+        $sale = Sale::with(['items', 'customer'])->findOrFail($id);
+        return view('admin.pos.invoice', compact('sale'));
+    }
+
+    public function printInvoice($id)
+    {
+        $sale = Sale::with(['items', 'customer'])->findOrFail($id);
+        return view('admin.pos.print', compact('sale'));
     }
 }
