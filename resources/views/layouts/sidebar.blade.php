@@ -230,7 +230,8 @@
         </div>
 
         <!-- Purchase Orders -->
-        <a href="#" class="nav-link disabled">
+        @if(Route::has('purchases.index'))
+        <a href="{{ route('purchases.index') }}" class="nav-link {{ request()->routeIs('purchases.*') ? 'active' : '' }}">
             <span class="nav-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
@@ -238,9 +239,9 @@
                     <path d="M16 10a4 4 0 01-8 0"/>
                 </svg>
             </span>
-            <span class="nav-label">Purchase Orders</span>
-            <span class="nav-badge">Soon</span>
+            <span class="nav-label">Purchases</span>
         </a>
+        @endif
 
         <!-- Divider -->
         <div class="nav-divider">

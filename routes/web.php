@@ -100,3 +100,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('suppliers', \App\Http\Controllers\Admin\SupplierController::class);
 });
+
+// Purchase Routes
+Route::middleware(['auth:sanctum', 'verified'])->prefix('purchases')->name('purchases.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Admin\PurchaseController::class, 'index'])->name('index');
+    Route::get('/create', [\App\Http\Controllers\Admin\PurchaseController::class, 'create'])->name('create');
+    Route::post('/', [\App\Http\Controllers\Admin\PurchaseController::class, 'store'])->name('store');
+    Route::get('/{purchase}', [\App\Http\Controllers\Admin\PurchaseController::class, 'show'])->name('show');
+    Route::delete('/{purchase}', [\App\Http\Controllers\Admin\PurchaseController::class, 'destroy'])->name('destroy');
+});
